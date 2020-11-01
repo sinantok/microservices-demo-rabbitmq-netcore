@@ -14,14 +14,13 @@ using System.Threading.Tasks;
 
 namespace Bus.RabbitMQ
 {
-    public class RabbitMQBus : IEventBus, IDisposable
+    public sealed class RabbitMQBus : IEventBus, IDisposable
     {
         private readonly IMediator _mediator;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
         private readonly Dictionary<string, List<Type>> _handlers;
         private readonly List<Type> _eventTypes;
-        //
 
         private static ConnectionFactory factory;
         private static IConnection connection;
@@ -32,12 +31,13 @@ namespace Bus.RabbitMQ
         {
             _mediator = mediator;
             _serviceScopeFactory = serviceScopeFactory;
+            _handlers = new Dictionary<string, List<Type>>();
+            _eventTypes = new List<Type>();
         }
 
-        public void Dispose()
+        public Task SendCommand<T>(T command) where T : Command
         {
-            channel?.Dispose();
-            connection?.Dispose();
+            return _mediator.Send(command);
         }
 
         public void Publish<T>(T @event) where T : Event
@@ -60,11 +60,6 @@ namespace Bus.RabbitMQ
             var message = JsonConvert.SerializeObject(@event);
             var body = Encoding.UTF8.GetBytes(message);
             channel.BasicPublish("", eventName, null, body);
-        }
-
-        public Task SendCommand<T>(T command) where T : Command
-        {
-            return _mediator.Send(command);
         }
 
         public void Subscribe<T, TH>()
@@ -142,8 +137,13 @@ namespace Bus.RabbitMQ
                     }
                 }
             }
-        }
+        } 
 
+        public void Dispose()
+        {
+            channel?.Dispose();
+            connection?.Dispose();
+        }
 
     }
 }
