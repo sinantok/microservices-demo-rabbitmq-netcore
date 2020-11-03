@@ -1,9 +1,7 @@
 ﻿using Banking.Data.Context;
 using Banking.Domain.Interfaces;
 using Banking.Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Banking.Data.Repository
 {
