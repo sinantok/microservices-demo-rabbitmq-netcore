@@ -6,9 +6,12 @@
 
   <ItemGroup>
     <Folder Include="CommandHandlers\" />
-    <Folder Include="Commands\" />
     <Folder Include="EventHandlers\" />
     <Folder Include="Events\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Domain\Domain.Core\Domain.Core.csproj" />
   </ItemGroup>
 
 </Project>
