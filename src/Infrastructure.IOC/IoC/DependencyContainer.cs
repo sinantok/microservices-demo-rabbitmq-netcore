@@ -1,7 +1,9 @@
-﻿using Banking.Application.Interfaces;
+﻿ using Banking.Application.Interfaces;
 using Banking.Application.Services;
 using Banking.Data.Context;
 using Banking.Data.Repository;
+using Banking.Domain.CommandHandlers;
+using Banking.Domain.Commands;
 using Banking.Domain.Interfaces;
 using Bus.RabbitMQ;
 using Domain.Core.Bus;
@@ -20,6 +22,9 @@ namespace IoC
                 var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
                 return new RabbitMQBus(sp.GetService<IMediator>(), scopeFactory);
             });
+
+            //Domain Banking Commands
+            services.AddTransient<IRequestHandler<CreateTransferCommand, bool>, TransferCommandHandler>();
 
             //Applicaiton Services
             services.AddTransient<IAccountService, AccountService>();

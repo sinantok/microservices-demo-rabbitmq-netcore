@@ -45,12 +45,15 @@ namespace Bus.RabbitMQ
             if (connection == null)
             {
                 factory = new ConnectionFactory() { HostName = "localhost" };
-                connection = factory.CreateConnection();
+                
                 factory.AutomaticRecoveryEnabled = true;
                 factory.TopologyRecoveryEnabled = true;
                 factory.NetworkRecoveryInterval = TimeSpan.FromSeconds(5);
                 factory.UseBackgroundThreadsForIO = true;
                 factory.RequestedHeartbeat = TimeSpan.FromSeconds(3);
+                factory.Port = 5672;
+                connection = factory.CreateConnection();
+
                 channel = connection.CreateModel();
                 var prop = channel.CreateBasicProperties();
                 prop.DeliveryMode = 2;
@@ -60,6 +63,7 @@ namespace Bus.RabbitMQ
             var message = JsonConvert.SerializeObject(@event);
             var body = Encoding.UTF8.GetBytes(message);
             channel.BasicPublish("", eventName, null, body);
+
         }
 
         public void Subscribe<T, TH>()
