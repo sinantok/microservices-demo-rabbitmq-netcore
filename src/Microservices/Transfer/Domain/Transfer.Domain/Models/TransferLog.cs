@@ -1,4 +1,4 @@
-﻿namespace MicroRabbit.Transfer.Domain.Models
+﻿namespace Transfer.Domain.Models
 {
     public class TransferLog
     {

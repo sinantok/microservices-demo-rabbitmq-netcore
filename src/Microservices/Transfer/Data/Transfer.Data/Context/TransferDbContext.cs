@@ -1,10 +1,10 @@
-﻿using MicroRabbit.Transfer.Domain.Models;
+﻿using Transfer.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MicroRabbit.Transfer.Data.Context
+namespace Transfer.Data.Context
 {
     public class TransferDbContext : DbContext
     {

@@ -1,6 +1,6 @@
 using IoC;
 using MediatR;
-using MicroRabbit.Transfer.Data.Context;
+using Transfer.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

@@ -7,7 +7,7 @@ namespace Banking.Data.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        private BankingDbContext _context;
+        private readonly BankingDbContext _context;
         public AccountRepository(BankingDbContext context)
         {
             _context = context;
