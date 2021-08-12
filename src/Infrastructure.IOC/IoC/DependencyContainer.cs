@@ -1,4 +1,4 @@
-﻿ using Banking.Application.Interfaces;
+﻿using Banking.Application.Interfaces;
 using Banking.Application.Services;
 using Banking.Data.Context;
 using Banking.Data.Repository;
@@ -9,6 +9,11 @@ using Bus.RabbitMQ;
 using Domain.Core.Bus;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Transfer.Application.Interfaces;
+using Transfer.Application.Services;
+using Transfer.Data.Context;
+using Transfer.Data.Repository;
+using Transfer.Domain.Interfaces;
 
 namespace IoC
 {
@@ -26,12 +31,21 @@ namespace IoC
             //Domain Banking Commands
             services.AddTransient<IRequestHandler<CreateTransferCommand, bool>, TransferCommandHandler>();
 
-            //Applicaiton Services
+
+            //Bankink Applicaiton Services
             services.AddTransient<IAccountService, AccountService>();
 
-            //Data 
+            //Banking Data 
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<BankingDbContext>();
+
+
+            //Transfer Applicaiton Services
+            services.AddTransient<ITransferService, TransferService>();
+
+            //Transfer Data 
+            services.AddTransient<ITransferRepository, TransferRepository>();
+            services.AddTransient<TransferDbContext>();
         }
     }
 }
