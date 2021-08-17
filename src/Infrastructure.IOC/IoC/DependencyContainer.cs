@@ -13,6 +13,8 @@ using Transfer.Application.Interfaces;
 using Transfer.Application.Services;
 using Transfer.Data.Context;
 using Transfer.Data.Repository;
+using Transfer.Domain.EventHandlers;
+using Transfer.Domain.Events;
 using Transfer.Domain.Interfaces;
 
 namespace IoC
@@ -27,6 +29,9 @@ namespace IoC
                 var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
                 return new RabbitMQBus(sp.GetService<IMediator>(), scopeFactory);
             });
+
+            //Domain Transfer Events
+            services.AddTransient<IEventHandler<TransferCreatedEvent>, TransferEventHandler>();
 
             //Domain Banking Commands
             services.AddTransient<IRequestHandler<CreateTransferCommand, bool>, TransferCommandHandler>();

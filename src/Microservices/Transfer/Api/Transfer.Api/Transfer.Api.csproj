@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\Infrastructure.IOC\IoC\IoC.csproj" />
     <ProjectReference Include="..\..\Data\Transfer.Data\Transfer.Data.csproj" />
   </ItemGroup>
