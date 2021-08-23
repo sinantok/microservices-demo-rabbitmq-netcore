@@ -30,8 +30,10 @@ namespace IoC
                 return new RabbitMQBus(sp.GetService<IMediator>(), scopeFactory);
             });
 
+            services.AddTransient<TransferEventHandler>();
+            
             //Domain Transfer Events
-            services.AddTransient<IEventHandler<TransferCreatedEvent>, TransferEventHandler>();
+            services.AddScoped<IEventHandler<TransferCreatedEvent>, TransferEventHandler>();
 
             //Domain Banking Commands
             services.AddTransient<IRequestHandler<CreateTransferCommand, bool>, TransferCommandHandler>();

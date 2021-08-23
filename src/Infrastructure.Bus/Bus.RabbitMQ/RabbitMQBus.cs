@@ -115,7 +115,7 @@ namespace Bus.RabbitMQ
             {
                 await ProcessEvent(eventName, message).ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -130,14 +130,14 @@ namespace Bus.RabbitMQ
                 {
                     foreach (var subscription in subscriptions)
                     {
-                        //  var handler = Activator.CreateInstance(subscription); //old code
-                        var handler = scope.ServiceProvider.GetService(subscription);
+                        //var handler = Activator.CreateInstance(subscription); 
+                        var handler = scope.ServiceProvider.GetRequiredService(subscription); //GetService(subscription);
                         if (handler == null) continue;
                         var eventType = _eventTypes.SingleOrDefault(t => t.Name == eventName);
                         var @event = JsonConvert.DeserializeObject(message, eventType);
                         var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
 
-                        await (Task)concreteType.GetMethod("Handler").Invoke(handler, new object[] { @event });
+                        await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { @event });
                     }
                 }
             }
